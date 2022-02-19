@@ -1,30 +1,56 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.*;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Collection<Product> products;
+    //private List<Product> products = new ArrayList<>();
+
+    private Map<Product,Integer> products = new HashMap<>(){
+
+    };
 
     public void addProduct(Product product) {
-        // TODO: implement
+        this.addProduct(product,1);
     }
 
     public void addProduct(Product product, Integer quantity) {
-        // TODO: implement
+        if (quantity.equals(0)){
+            throw new IllegalArgumentException("Product price cannot be null");
+        }
+        if ( quantity < 0){
+            throw new IllegalArgumentException("Product price cannot be empty");
+        }
+        this.products.put(product,quantity);
     }
 
     public BigDecimal getSubtotal() {
-        return null;
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Product product : this.products.keySet()){
+            Integer quantity = this.products.get(product);
+            BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
+            sum = sum.add(product.getPrice().multiply(quantityAsBigDecimal));
+        }
+        return sum;
     }
 
     public BigDecimal getTax() {
-        return null;
-    }
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Product product : this.products.keySet()){
+            Integer quantity = this.products.get(product);
+            BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
+            sum = sum.add(product.getPrice().multiply(product.getTaxPercent()).multiply(quantityAsBigDecimal));
+        }
+        return sum;    }
 
     public BigDecimal getTotal() {
-        return null;
-    }
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Product product : this.products.keySet()){
+            Integer quantity = this.products.get(product);
+            BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
+            sum = sum.add(product.getPrice().multiply(product.getTaxPercent().add(BigDecimal.ONE)).multiply(quantityAsBigDecimal));
+        }
+        return sum;    }
 }
