@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
@@ -56,7 +55,8 @@ public class Invoice {
 
     public String print() {
         return "Invoice number: " + this.getNumber() + "\n"
-                + products.keySet().stream().map(p -> printingInRows(p, products.get(p))).collect(Collectors.joining(""))
+                + products.keySet()
+                .stream().map(p -> printingInRows(p, products.get(p))).collect(Collectors.joining(""))
                 + "Positions numbers: " + products.size() + ".";
     }
 
