@@ -150,4 +150,15 @@ public class InvoiceTest {
         int number2 = new Invoice().getNumber();
         Assert.assertThat(number1, Matchers.lessThan(number2));
     }
+    @Test
+    public void testAllProductsCanBePrinted() {
+        invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")), 2);
+        invoice.addProduct(new OtherProduct("Warzywa", new BigDecimal("199.99")), 1000);
+
+        String print = invoice.print();
+        System.out.println(invoice.print());
+
+        Assert.assertEquals(invoice.getProducts().keySet().stream().map(Product::getName)
+                .filter(print::contains).count(), invoice.getProducts().size());
+    }
 }
