@@ -62,7 +62,8 @@ public class Invoice {
     public String print() {
         return "Invoice number: " + this.getNumber() + "\n"
                 + products.keySet()
-                .stream().map(p -> printingInRows(p, products.get(p))).collect(Collectors.joining(""))
+                .stream()
+                .map(p -> printingInRows(p, products.get(p))).collect(Collectors.joining(""))
                 + "Positions numbers: " + products.size() + ".";
     }
 
