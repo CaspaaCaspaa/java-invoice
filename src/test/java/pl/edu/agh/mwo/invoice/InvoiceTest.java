@@ -161,4 +161,15 @@ public class InvoiceTest {
         Assert.assertEquals(invoice.getProducts().keySet().stream().map(Product::getName)
                 .filter(print::contains).count(), invoice.getProducts().size());
     }
+
+    @Test
+    public void testInvoiceHaveSameProducts() {
+        invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")), 2);
+        invoice.addProduct(new OtherProduct("Warzywa", new BigDecimal("199.99")), 1000);
+        invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")), 3);
+
+        String print = invoice.print();
+        System.out.println(print);
+        Assert.assertEquals(1, invoice.getProducts().keySet().stream().filter(p -> p.getName().equals("Owoce")).count());
+    }
 }
